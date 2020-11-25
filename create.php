@@ -16,7 +16,7 @@
 		if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
 
 			// Set status code to 401
-			header('HTTP/1.1 401 Unauthorized');
+			header($_SERVER["SERVER_PROTOCOL"].' 401 Unauthorized');
 
 			// Redirect unauthenticated user to landing page
 			header('Refresh: 5; url=login.php');
