@@ -13,7 +13,6 @@
 		<div class="card p-5">
 			<h1>All Posts</h1>
 			<small>You can add new posts <a href="create.php">here</a></small>
-			<?php echo $_SERVER['PHP_AUTH_PW']; ?>
 		</div>
 		<div class="row">
 

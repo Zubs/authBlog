@@ -27,7 +27,7 @@
 
 			// Get variables
 			$username = $_SERVER['PHP_AUTH_USER'];
-			$password = password_hash($_SERVER['PHP_AUTH_PW'], PASSWORD_DEFAULT);
+			$password = $_SERVER['PHP_AUTH_PW'];
 
 			// Connect to database
 			$conn = mysqli_connect('localhost', 'root', '', 'authBlog1') or die("Unable to connect to db");
@@ -43,32 +43,39 @@
 			
 			// If the user exists
 			if ($row) {
-
-				echo $row[2] . "<br>";
-				echo password_hash($password, PASSWORD_DEFAULT) . "<br>";
-				if(!password_verify($password, $row[2])) {
-					echo "The same";
-				};
 				
-				// // See if passwords match
-				// if ($row[2] == password_hash($password, PASSWORD_DEFAULT)) {
+				// See if passwords match
+				if (password_verify($password, $row[2])) {
 					
-				// 	// Redirect to create page
-				// 	header('Location: create.php');
-				// } else {
+					// Redirect to create page
+					header('Location: create.php');
+				} else {
 
-				// 	// Set status code to 401
-				// 	header('HTTP/1.1 401 Unauthorized');
+					// Set status code to 401
+					header('HTTP/1.1 401 Unauthorized');
 
-				// 	// Pop up the box for authentication
-				// 	header('WWW-Authenticate: Basic realm="authBlog1"');
+					// Pop up the box for authentication
+					header('WWW-Authenticate: Basic realm="authBlog1"');
 
-				// 	// Redirect to landing page
-				// 	header('Refresh: 5; url=index.php');
+					// Redirect to landing page
+					header('Refresh: 5; url=index.php');
 
-				// 	// Render some warning text
-				// 	echo '<p class="alert alert-danger">You do not have access to this page and will be redirected in 5 seconds</p>';
-				// }
+					// Render some warning text
+					echo '<p class="alert alert-danger">You do not have access to this page and will be redirected in 5 seconds</p>';
+				}
+			} else {
+
+				// Set status code to 401
+				header('HTTP/1.1 401 Unauthorized');
+
+				// Pop up the box for authentication
+				header('WWW-Authenticate: Basic realm="authBlog1"');
+
+				// Redirect to landing page
+				header('Refresh: 5; url=index.php');
+
+				// Render some warning text
+				echo '<p class="alert alert-danger">You do not have access to this page and will be redirected in 5 seconds</p>';
 			}
 		}
 	?>
